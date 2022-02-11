@@ -1,0 +1,19 @@
+{
+  "name": "Simple reading time",
+  "description": "Displays an estimated reading time for the currently selected tab",
+  "version": "0.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action" : {},
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
