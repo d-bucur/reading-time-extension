@@ -1,8 +1,6 @@
-let bgColor = '#4688F1';
-let wordsPerMinute = 200;
-
-function updateReadTime(tabId, wordCount) {
-    let minsToRead = wordCount / wordsPerMinute;
+async function updateReadTime(tabId, wordCount) {
+    let settings = await getSettings();
+    let minsToRead = wordCount / settings.wpm;
     let badgeText = "";
     if (minsToRead < 1) {
         let secsToRead = minsToRead / 60;
@@ -15,17 +13,25 @@ function updateReadTime(tabId, wordCount) {
         text: badgeText,
         tabId: tabId
     });
+    chrome.action.setBadgeBackgroundColor({color: settings.bgColor});
 }
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     updateReadTime(sender.tab.id, message.wordCount);
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-    // chrome.storage.sync.set({ bgColor }); // TODO save values to storage
-    chrome.action.setBadgeBackgroundColor({color: bgColor});
+    chrome.storage.sync.set({
+        wpm: 200,
+        bgColor: "#4688F1"
+    });
 });
 
-chrome.action.onClicked.addListener(function(tab) {
-    chrome.tabs.sendMessage(tab.id, {type: "recount"});
+async function getSettings() {
+    let settings = await chrome.storage.sync.get(["wpm", "bgColor"]);
+    return settings;
+}
+
+chrome.action.onClicked.addListener(function (tab) {
+    chrome.tabs.sendMessage(tab.id, { type: "recount" });
 });
