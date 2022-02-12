@@ -2,10 +2,10 @@
 
 A simple Chrome extension that displays an estimated time to read the active tab (like the one you find in Medium articles for example)
 
-# Notes
+# Download
 
-This is still in development and not published on the Chrome Web Store yet.
+It's still in development and not published on the Chrome Web Store yet. In the meanwhile you can download and load it as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/#unpacked)
 
 # Credits
 
-This is inpsired by [Instant Reading Time](https://github.com/umpox/ReadingTime-BrowserExtension), which is no longer supported by the author.
+This was inspired by [Instant Reading Time](https://github.com/umpox/ReadingTime-BrowserExtension), which is no longer supported by the author.
