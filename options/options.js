@@ -1,23 +1,37 @@
+const DEFAULT_WPM = 200;
+const DEFAULT_BG_COLOR = "#4688F1";
+
 function saveOptions() {
-    // TODO validate input
     var wpm = document.getElementById('wpm').value;
-    // TODO add color picker
     var bgColor = document.getElementById('bgcolor').value;
     chrome.storage.sync.set({
         wpm: wpm,
         bgColor: bgColor
     });
+    document.getElementById('status').classList.remove("visible");
 }
 
 function restoreOptions() {
     chrome.storage.sync.get({
-        wpm: 200,
-        bgColor: "#4688F1"
+        wpm: DEFAULT_WPM,
+        bgColor: DEFAULT_BG_COLOR
     }, function (items) {
         document.getElementById('wpm').value = items.wpm;
         document.getElementById('bgcolor').value = items.bgColor;
     });
 }
 
+function restoreDefaults() {
+    document.getElementById('wpm').value = DEFAULT_WPM;
+    document.getElementById('bgcolor').value = DEFAULT_BG_COLOR;
+}
+
+function notifyChanges () {
+    document.getElementById('status').classList.add("visible")
+}
+
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('save').addEventListener('click', saveOptions);
+document.getElementById('defaults').addEventListener('click', restoreDefaults);
+document.getElementById('defaults').addEventListener('click', notifyChanges);
+document.getElementById('options-form').addEventListener('input', notifyChanges);

@@ -1,7 +1,7 @@
 {
   "name": "Simple reading time",
   "description": "Displays an estimated reading time for the currently selected tab",
-  "version": "0.1",
+  "version": "0.1.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
