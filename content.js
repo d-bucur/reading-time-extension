@@ -2,20 +2,25 @@ const UPDATE_BATCH_TIME = 500;
 var updateHandle = null;
 
 function updateCount() {
-    var wordCount = document.body.innerText.split(' ').length;
-    chrome.runtime.sendMessage({ "wordCount": wordCount });
+    let wordCount = document.body.innerText.split(' ').length;
+    let readPercent = this.scrollY/document.body.scrollHeight;
+    chrome.runtime.sendMessage({ "wordCount": wordCount, "readPercent": readPercent});
     updateHandle = null;
 }
 
 // Update on page load
 updateCount();
 
-// Register handler to update on page mutations
-let observer = new MutationObserver(mutations => {
-    // schedule new update if page has changed and no update is already scheduled
+function batchUpdate() {
     if (updateHandle === null) {
         updateHandle = setTimeout(updateCount, UPDATE_BATCH_TIME);
     }
+}
+
+// Register handler to update on page mutations
+let observer = new MutationObserver(mutations => {
+    // schedule new update if page has changed and no update is already scheduled
+    batchUpdate()
 });
 observer.observe(document, { childList: true, subtree: true });
 
@@ -25,4 +30,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         updateCount();
     }
     sendResponse();
+});
+
+const scroller = window;
+scroller.addEventListener("scroll", event => {
+    batchUpdate();
 });

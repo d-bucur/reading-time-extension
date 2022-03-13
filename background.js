@@ -1,5 +1,7 @@
-async function updateReadTime(tabId, wordCount) {
+async function updateReadTime(tabId, wordCount, readPercent) {
     let settings = await getSettings();
+    if (settings.updateOnScroll)
+        wordCount -= readPercent * wordCount;
     let minsToRead = wordCount / settings.wpm;
     let badgeText = "";
     if (minsToRead < 1) {
@@ -17,19 +19,21 @@ async function updateReadTime(tabId, wordCount) {
 }
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    updateReadTime(sender.tab.id, message.wordCount);
+    updateReadTime(sender.tab.id, message.wordCount, message.readPercent);
     return true;
 });
 
 chrome.runtime.onInstalled.addListener(() => {
+    // TODO use defaults in options.js
     chrome.storage.sync.set({
         wpm: 200,
-        bgColor: "#4688F1"
+        bgColor: "#4688F1",
+        updateOnScroll: false,
     });
 });
 
 async function getSettings() {
-    let settings = await chrome.storage.sync.get(["wpm", "bgColor"]);
+    let settings = await chrome.storage.sync.get(["wpm", "bgColor", "updateOnScroll"]);
     return settings;
 }
 
