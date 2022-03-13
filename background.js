@@ -18,6 +18,7 @@ async function updateReadTime(tabId, wordCount) {
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     updateReadTime(sender.tab.id, message.wordCount);
+    return true;
 });
 
 chrome.runtime.onInstalled.addListener(() => {

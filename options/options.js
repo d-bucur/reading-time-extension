@@ -1,5 +1,7 @@
 function saveOptions() {
+    // TODO validate input
     var wpm = document.getElementById('wpm').value;
+    // TODO add color picker
     var bgColor = document.getElementById('bgcolor').value;
     chrome.storage.sync.set({
         wpm: wpm,
