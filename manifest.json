@@ -1,6 +1,6 @@
 {
   "name": "Simple reading time",
-  "description": "Displays an estimated reading time for the currently selected tab",
+  "description": "A simple extension that displays an estimated time to read the active tab",
   "version": "0.1.1",
   "manifest_version": 3,
   "background": {

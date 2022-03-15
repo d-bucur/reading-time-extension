@@ -8,11 +8,13 @@ With so much content out there, it's often useful to know in advance how long re
 
 The estimate is unintrusive and displayed in the extension action area.
 
-Reading speed can be customized in the options and the label color can be changed to match your browser theme.
+The reading speed can be customized in the options and the label color can be changed to match your browser theme.
 
 # Download
 
-It's still in development and not published on the Chrome Web Store yet. In the meanwhile you can download and load it as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/#unpacked)
+You can download it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/simple-reading-time/njdfjbjaamadilkdgoobeidhlmbjeebm)
+
+Or for development you can download and load it as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/#unpacked)
 
 # Usage
 
@@ -20,7 +22,7 @@ It's still in development and not published on the Chrome Web Store yet. In the 
 
 Make sure the extension is pinned so you can easily see the counter. It will update when you load a page. If the page content changes dynamically, the counter should also update after a slight delay. In case it doesn't, you can left click the button to force an update.
 
-You can right click and go to Options to configure your reading speed (the default is 200 WPM) and the label color.
+You can right click and go to Options to configure your reading speed (the default is 200 word per minute) and the label color.
 
 # Privacy
 
