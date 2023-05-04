@@ -22,15 +22,16 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.set({
-        wpm: 200,
-        bgColor: "#4688F1"
-    });
+    // sets to default when extension installed, use existing settings if just a Chrome update
+    var settings = getSettings();
+    chrome.storage.sync.set(settings);
 });
 
 async function getSettings() {
-    let settings = await chrome.storage.sync.get(["wpm", "bgColor"]);
-    return settings;
+    return await chrome.storage.sync.get({
+        wpm: 200,
+        bgColor: "#4688F1"
+    });
 }
 
 chrome.action.onClicked.addListener(function (tab) {

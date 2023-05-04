@@ -1,3 +1,4 @@
+// TODO should only write defaults once as used in background.js as well
 const DEFAULT_WPM = 200;
 const DEFAULT_BG_COLOR = "#4688F1";
 
@@ -11,14 +12,13 @@ function saveOptions() {
     document.getElementById('status').classList.remove("visible");
 }
 
-function restoreOptions() {
-    chrome.storage.sync.get({
+async function restoreOptions() {
+    var items = await chrome.storage.sync.get({
         wpm: DEFAULT_WPM,
         bgColor: DEFAULT_BG_COLOR
-    }, function (items) {
-        document.getElementById('wpm').value = items.wpm;
-        document.getElementById('bgcolor').value = items.bgColor;
     });
+    document.getElementById('wpm').value = items.wpm;
+    document.getElementById('bgcolor').value = items.bgColor;
 }
 
 function restoreDefaults() {
