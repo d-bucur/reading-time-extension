@@ -1,9 +1,16 @@
-async function updateReadTime(tabId, wordCount) {
+async function updateReadTime(tabId, wordCount, timeSinceStarted) {
     let settings = await getSettings();
     let minsToRead = wordCount / settings.wpm;
+
+    if (timeSinceStarted) {
+        // only in countdown mode
+        var timeStartedReading = timeSinceStarted / 60000;
+        minsToRead -= timeStartedReading;
+    }
     let badgeText = "";
+    // TODO handle negative in case of countdown mode
     if (minsToRead < 1) {
-        let secsToRead = minsToRead / 60;
+        let secsToRead = minsToRead * 60;
         badgeText = Math.ceil(secsToRead).toString() + "s";
     }
     else {
@@ -17,7 +24,9 @@ async function updateReadTime(tabId, wordCount) {
 }
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    updateReadTime(sender.tab.id, message.wordCount);
+    if (message.wordCount) {
+        updateReadTime(sender.tab.id, message.wordCount, message.timeSinceStarted);
+    }
     return true;
 });
 
@@ -33,7 +42,3 @@ async function getSettings() {
         bgColor: "#4688F1"
     });
 }
-
-chrome.action.onClicked.addListener(function (tab) {
-    chrome.tabs.sendMessage(tab.id, { type: "recount" });
-});
